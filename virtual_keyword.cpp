@@ -1,18 +1,18 @@
+// ======================================
+// INTRO
+// VIRTUAL KEYWORD CAN BE USED TO GET A FEEL OF RUN TIME POLYMORPHISM, LATE BINDING, DYNAMIC BINDINC
+// ======================================
+// HOW TO COMPILE?
 // to compile in mobaxterm ==>gcc -g virtual_keyword.cpp -o virtual_keyword -lstdc++
 // to run in mobaxterm ===> ./virtual_keyword
-
-
 // ======================================
 // OUTPUT
 // parent_show
 // parent_view
 // parent_show
 // child_view
-
 // ======================================
-#include<map>
 #include<iostream>
-#include<string>
 
 class parent{
     public:
