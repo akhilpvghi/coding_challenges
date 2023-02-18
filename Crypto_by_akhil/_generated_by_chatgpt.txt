@@ -1,0 +1,58 @@
+Akhil Pandey
+write a program in C which can read binary file and read in bytes and increment each byte by one except 0xff, and write the updated content in same encoding format as input file
+
+To write the updated content in the same encoding format as the input file, we need to determine the encoding of the input file and use the same encoding when writing the output file. Here's an example C program that reads a binary file, increments each byte by one (except for 0xFF), and writes the updated content to another file using the same encoding format as the input file:
+
+scss
+Copy code
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[]) {
+    if (argc != 3) {
+        printf("Usage: %s <input_file> <output_file>\n", argv[0]);
+        return 1;
+    }
+    FILE *input_file = fopen(argv[1], "rb");
+    if (input_file == NULL) {
+        printf("Error: could not open input file %s\n", argv[1]);
+        return 1;
+    }
+    FILE *output_file = fopen(argv[2], "wb");
+    if (output_file == NULL) {
+        printf("Error: could not open output file %s\n", argv[2]);
+        fclose(input_file);
+        return 1;
+    }
+    fseek(input_file, 0, SEEK_END);
+    long input_file_size = ftell(input_file);
+    rewind(input_file);
+    char *input_data = malloc(input_file_size);
+    fread(input_data, 1, input_file_size, input_file);
+    fclose(input_file);
+    char *output_data = malloc(input_file_size);
+    for (long i = 0; i < input_file_size; i++) {
+        if (input_data[i] != 0xFF) {
+            output_data[i] = input_data[i] + 1;
+        } else {
+            output_data[i] = input_data[i];
+        }
+    }
+    fwrite(output_data, 1, input_file_size, output_file);
+    fclose(output_file);
+    free(input_data);
+    free(output_data);
+    return 0;
+}
+Here's how this program works:
+
+The program checks that it has been called with two arguments: the input file and the output file.
+The program opens the input file for reading in binary mode (rb), and the output file for writing in binary mode (wb).
+The program determines the size of the input file by seeking to the end of the file, calling ftell to get the current position, and then rewinding the file back to the beginning using rewind.
+The program allocates a buffer of the appropriate size to hold the input file data using malloc, and reads the input file data into this buffer using fread.
+The program allocates a buffer of the same size as the input data buffer to hold the output file data using malloc.
+The program iterates over each byte in the input data buffer, increments the byte by one if it is not 0xFF, and stores the updated byte in the output data buffer.
+The program writes the updated output data buffer to the output file using fwrite.
+The program frees the memory allocated for the input and output data buffers using free.
+The program returns 0 to indicate success.
+Note that this program assumes that the input file is encoded in a single-byte character encoding, such as ASCII or ISO-8859-1. If the input file uses a multi-byte character encoding, such as UTF-8 or UTF-16, then the program will not work correctly. In that case, you would need to use a library that is designed to handle multi-byte character encodings, such as ICU or iconv.
