@@ -1,3 +1,6 @@
+// to compile in mobaxterm ==>gcc -g roman_to_int.cpp -o roman_to_int.exe -lstdc++
+// to run in mobaxterm ===> ./roman_to_int.exe
+
 #include<map>
 #include<iostream>
 #include<string>
